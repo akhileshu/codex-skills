@@ -1,4 +1,4 @@
 interface:
   display_name: "Full-Stack Web Slice Design Generator"
-  short_description: "Plan full-stack slices from data to UI"
-  default_prompt: "Enforce the Full-Stack Web Slice Design Generator skill. Break product rows into vertical slices, map data flow end to end, and keep client and server responsibilities clean."
+  short_description: "Design web slices with contracts and tests"
+  default_prompt: "Enforce the Full-Stack Web Slice Design Generator skill. Generate an implementation-slices table and detailed web slice documents with study notes, scope, interfaces, state flow, repository ownership, failure cases, tests, and observable acceptance criteria."

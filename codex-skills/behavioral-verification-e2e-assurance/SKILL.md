@@ -16,6 +16,12 @@ Test what the user can observe. Prefer accessible selectors, stable outcomes, an
 3. Use Playwright for high-value workflows, permission gates, session flows, and failure recovery.
 4. Include boundary cases such as slow networks, empty states, errors, and multi-user contention where they matter.
 
+## Refactor-Proof Assertions
+
+- Assert public outcomes and invariants, not state containers, framework wiring, or storage representation.
+- Keep integration assertions stable when an internal implementation changes from local state to a remote store, queue, or synchronization engine.
+- For long-lived resources, verify unsubscribe, disconnect, cancellation, or teardown behavior when leaks would affect users or capacity.
+
 ## Guardrails
 
 - Test observable behavior, not private component state.

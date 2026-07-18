@@ -16,6 +16,12 @@ Start sequential, then add concurrency carefully. Bound everything that can grow
 3. Use circuit breakers or bulkheads when dependency failure can spread.
 4. Use outbox/inbox patterns or dedupe keys when retries can duplicate side effects.
 
+## Evolution And Lifecycle
+
+- Establish a tracer path with explicit ownership, cancellation, and completion semantics before parallelizing it.
+- Keep invariants and externally visible outcomes stable when replacing the sequential implementation with workers or queues.
+- Specify teardown for goroutines, timers, subscriptions, and queue consumers; a bounded design also needs a deterministic shutdown path.
+
 ## Guardrails
 
 - Prefer fail-closed when safety matters more than uptime.

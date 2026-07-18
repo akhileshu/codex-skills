@@ -17,6 +17,12 @@ Treat network boundaries as failure-prone by default. Add deadlines, telemetry, 
 4. Retry only with idempotency or deduplication in place.
 5. Use local mirrors such as `httpbin` to test failure paths before shipping.
 
+## Lifecycle And Partial Failure
+
+- Make cancellation, timeout, connection close, and response-body ownership explicit for every network operation.
+- Define what happens when a remote operation succeeds but the caller loses the response, or when a retry observes an unknown outcome.
+- Preserve structured context at the boundary that handles the failure; do not hide partial failure behind a generic success or unbounded retry loop.
+
 ## Guardrails
 
 - Keep queues, retries, and worker pools bounded.

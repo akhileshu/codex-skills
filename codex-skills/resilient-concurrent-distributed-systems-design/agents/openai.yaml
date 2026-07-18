@@ -1,4 +1,4 @@
 interface:
   display_name: "Resilient Concurrent & Distributed Systems Design"
   short_description: "Design bounded concurrent systems that fail well"
-  default_prompt: "Enforce the Resilient Concurrent & Distributed Systems Design skill. Start sequential, bound workers and queues, and design for retries, duplication, and partial failure."
+  default_prompt: "Enforce the Resilient Concurrent & Distributed Systems Design skill. Establish a sequential tracer path, bound workers and queues, define cancellation and teardown, and design for retries, duplication, and partial failure."

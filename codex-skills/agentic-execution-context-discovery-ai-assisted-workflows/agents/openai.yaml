@@ -1,4 +1,4 @@
 interface:
   display_name: "Agentic Execution & Context Discovery"
   short_description: "Plan before coding and verify local context"
-  default_prompt: "Enforce the Agentic Execution & Context Discovery skill. Discover project structure first, state constraints, split work into phases, and validate each step before coding."
+  default_prompt: "Enforce the Agentic Execution & Context Discovery skill. Discover project structure first, state constraints, establish a narrow tracer path, validate design boundaries, and verify each phase before widening scope."

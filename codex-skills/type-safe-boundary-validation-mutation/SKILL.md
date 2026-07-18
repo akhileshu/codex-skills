@@ -16,6 +16,12 @@ Keep data integrity at the edge. Validate once, preserve types through the flow,
 3. Put access policies in the schema or policy layer, not in scattered business logic.
 4. Connect forms to the same validation source as the backend.
 
+## State Integrity
+
+- Transform parsed transport values into domain values before they enter core logic; do not let request, database, or framework types become the domain model by accident.
+- Use discriminated unions and constrained value types when they prevent impossible combinations or ambiguous mutation states.
+- Keep the boundary contract stable while allowing internal schemas and persistence representations to evolve behind it.
+
 ## Guardrails
 
 - Keep validation explicit and close to the edge.

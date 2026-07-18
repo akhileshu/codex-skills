@@ -1,0 +1,4 @@
+interface:
+  display_name: "Go Implementation Slices Architect"
+  short_description: "Generate Go slice tables and repo structures"
+  default_prompt: "Enforce the Go Systems Implementation Slices and Repo Structure Architect skill. Generate one row per capability using Understand, Simplify, Reuse, Build, Integrate, Verify, Operate, and Evolve, then show cmd/internal package boundaries and the sequential tracer path."

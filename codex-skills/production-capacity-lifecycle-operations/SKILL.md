@@ -16,6 +16,12 @@ Keep systems bounded, observable, and safe to change. Add operational controls b
 3. Roll out risky changes behind feature flags.
 4. Use shadow traffic or other safe mirroring when replacing critical paths.
 
+## Slice-Level Operations
+
+- Tie each operational control to a concrete workload, failure mode, or rollback decision; do not add metrics or flags decoratively.
+- Define resource ownership and teardown for workers, queues, connections, caches, and subscriptions.
+- Verify the new path under representative limits before widening rollout, and keep rollback or disablement observable and reversible.
+
 ## Guardrails
 
 - Use worker pools and semaphores for concurrency.

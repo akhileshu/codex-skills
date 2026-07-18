@@ -14,8 +14,18 @@ Use this skill to avoid guessing. Discover the project shape first, state the co
 1. Inspect the relevant files, entrypoints, and call paths before proposing code.
 2. State the problem, constraints, and known unknowns in plain terms.
 3. Break the work into the smallest safe phases.
-4. Implement the first phase with the narrowest possible change.
-5. Verify the result locally before widening scope.
+4. Establish a narrow tracer path that proves the key boundary before widening scope.
+5. Implement the first phase with the narrowest possible change.
+6. Verify the result locally before widening scope.
+7. Refactor or replace internal scaffolding when later evidence requires it; preserve tested external behavior.
+
+## Design Validation
+
+Before coding, challenge the proposed design against the actual failure modes:
+
+- Identify leaky boundaries, high-frequency state coupled to slow UI updates, unvalidated external input, and unmanaged resources.
+- Confirm each phase has a visible outcome, a verification method, and a clear reason not to include adjacent work.
+- If a recurring failure reveals a missing project rule, propose the rule with its trade-off instead of silently adding ceremony.
 
 ## Guardrails
 
@@ -23,6 +33,7 @@ Use this skill to avoid guessing. Discover the project shape first, state the co
 - Do not write code until the relevant context is mapped.
 - Keep the first pass sequential and simple.
 - Add abstraction only when the current slice proves it is needed.
+- Treat early implementations as disposable scaffolding behind stable, minimal interfaces.
 
 ## Flexible Guardrail
 
