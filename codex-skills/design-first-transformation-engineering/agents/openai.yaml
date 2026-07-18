@@ -1,4 +1,4 @@
 interface:
-  display_name: "Design-First Transformation Engineering"
+  display_name: "design-first-transformation-engineering"
   short_description: "Design safe data-flow transformations first"
   default_prompt: "Enforce the Design-First Transformation Engineering skill. Normalize inputs at the boundary, keep domain logic free of infrastructure leaks, and prefer explicit state transitions."

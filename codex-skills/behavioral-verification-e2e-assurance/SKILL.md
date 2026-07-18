@@ -16,6 +16,13 @@ Test what the user can observe. Prefer accessible selectors, stable outcomes, an
 3. Use Playwright for high-value workflows, permission gates, session flows, and failure recovery.
 4. Include boundary cases such as slow networks, empty states, errors, and multi-user contention where they matter.
 
+## Project-Aware Test Tool Selection
+
+- For web projects, inspect the existing package scripts and use the configured unit-test runner. Use Vitest when the project already has it configured; do not add or force it when another suitable runner is in use.
+- Invoke `$playwright-skill` for browser-visible workflows, authentication, responsive behavior, navigation, and other high-value E2E checks. Follow that skill's server-detection and browser-execution workflow.
+- For Go projects, use the native test runner with `go test ./...`. Add `go test -race ./...` when concurrency or shared state makes race detection relevant.
+- Keep tool choice proportional to risk: a unit or integration test is sufficient when browser automation would not add meaningful confidence.
+
 ## Refactor-Proof Assertions
 
 - Assert public outcomes and invariants, not state containers, framework wiring, or storage representation.

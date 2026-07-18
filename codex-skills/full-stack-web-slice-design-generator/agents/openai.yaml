@@ -1,4 +1,4 @@
 interface:
-  display_name: "Full-Stack Web Slice Design Generator"
+  display_name: "full-stack-web-slice-design-generator"
   short_description: "Design web slices with contracts and tests"
   default_prompt: "Enforce the Full-Stack Web Slice Design Generator skill. Generate an implementation-slices table and detailed web slice documents with study notes, scope, interfaces, state flow, repository ownership, failure cases, tests, and observable acceptance criteria."

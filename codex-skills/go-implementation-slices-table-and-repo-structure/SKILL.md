@@ -1,5 +1,5 @@
 ---
-name: go-systems-implementation-slices-table-and-repo-structure-architect
+name: go-implementation-slices-table-and-repo-structure
 description: Design Go implementation slices and repository structure before coding. Use when turning a Go systems roadmap into a capability-by-capability implementation table, defining cmd and internal package boundaries, or sequencing sequential, storage, transport, and concurrent work.
 ---
 
@@ -24,11 +24,11 @@ List the smallest relevant Go packages, command entrypoints, interfaces, schemas
 
 ### Implementation Slices
 
-Use one row per capability and preserve this column order:
+Use one row per capability and preserve this column order. Put `Done` immediately after `#`; use `[x]` for a capability the user or source roadmap confirms is complete, and `[ ]` for a pending or unconfirmed capability. Do not mark a slice complete merely because it is planned.
 
-| # | Slice / Visible Capability | Understand | Simplify | Reuse | Build | Integrate | Verify | Operate | Evolve |
-|---:|---|---|---|---|---|---|---|---|---|
-| 1 | Example capability | Relevant system or runtime concept | Smallest sequential scope | Existing package or standard library primitive | Concrete types and control flow | First caller or composition-root path | Invariants and failure tests | Logs, limits, or cleanup if material | Explicit next step |
+| # | Done | Slice / Visible Capability | Understand | Simplify | Reuse | Build | Integrate | Verify | Operate | Evolve |
+|---:|:---:|---|---|---|---|---|---|---|---|---|---|
+| 1 | [ ] | Example capability | Relevant system or runtime concept | Smallest sequential scope | Existing package or standard library primitive | Concrete types and control flow | First caller or composition-root path | Invariants and failure tests | Logs, limits, or cleanup if material | Explicit next step |
 
 Make every cell concrete. `Simplify` states what is intentionally excluded. `Reuse` identifies existing packages, interfaces, codecs, or standard-library primitives. `Integrate` names the caller and dependency direction. `Operate` covers limits, cancellation, observability, and shutdown only when relevant. `Evolve` records deferred work, not requirements for the current slice.
 
@@ -100,7 +100,7 @@ For operational slices, specify bounded input size, workers, queues, retries, ti
 ## AGENTS.md Reference Entry
 
 ```markdown
-- **Skill Reference:** `skills/go-systems-implementation-slices-table-and-repo-structure-architect.md`
+- **Skill Reference:** `skills/go-implementation-slices-table-and-repo-structure.md`
   - **When to invoke:** Use this when a Go roadmap needs an implementation-slices table and repository/package structure before coding.
   - **Prompt Hook:** "Act as a Go Systems Architect. Generate the Understand/Simplify/Reuse/Build/Integrate/Verify/Operate/Evolve slices table, show cmd/internal package boundaries, and keep the first path sequential and testable."
 ```

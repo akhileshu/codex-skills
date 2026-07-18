@@ -1,4 +1,4 @@
 interface:
-  display_name: "Full-Stack Web Implementation Slices Architect"
+  display_name: "full-stack-web-implementation-slices-table-and-repo-structure"
   short_description: "Generate web slice tables and repo structures"
   default_prompt: "Enforce the Full-Stack Web Implementation Slices and Repo Structure Architect skill. Generate one row per visible capability using Understand, Simplify, Reuse, Build, Integrate, Verify, Operate, and Evolve, then show the repository structure and stable boundaries."

@@ -1,4 +1,4 @@
 interface:
-  display_name: "Resilient Client State & Query Architecture"
+  display_name: "resilient-client-state-query-architecture"
   short_description: "Model client state with explicit lifecycles"
   default_prompt: "Enforce the Resilient Client State & Query Architecture skill. Use explicit server-state lifecycles, lean local stores, and URL-synced client state."

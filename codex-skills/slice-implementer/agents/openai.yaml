@@ -1,4 +1,4 @@
 interface:
-  display_name: "Slice Implementer"
+  display_name: "slice-implementer"
   short_description: "Implement slices with reconciliation and tests"
   default_prompt: "Enforce the Slice Implementer skill. Read and reconcile the slice document with repository and quality rules, build a narrow tracer path, implement in verified checkpoints, and preserve stable behavior."

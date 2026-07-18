@@ -1,4 +1,4 @@
 interface:
-  display_name: "Production Capacity & Lifecycle Operations"
+  display_name: "production-capacity-lifecycle-operations"
   short_description: "Keep systems bounded, observable, and safe"
   default_prompt: "Enforce the Production Capacity & Lifecycle Operations skill. Tie capacity controls to real failure modes, bound resources, verify lifecycle cleanup, add telemetry, and keep rollout and rollback reversible."

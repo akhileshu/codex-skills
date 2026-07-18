@@ -1,4 +1,4 @@
 interface:
-  display_name: "Behavioral Verification & E2E Assurance"
+  display_name: "behavioral-verification-e2e-assurance"
   short_description: "Test user-visible behavior across boundaries"
   default_prompt: "Enforce the Behavioral Verification & E2E Assurance skill. Test user-visible invariants with accessible selectors, preserve assertions across refactors, and cover meaningful boundary failures and cleanup behavior."

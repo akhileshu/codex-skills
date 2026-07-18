@@ -1,5 +1,5 @@
 ---
-name: full-stack-web-implementation-slices-table-and-repo-structure-architect
+name: full-stack-web-implementation-slices-table-and-repo-structure
 description: Design full-stack web implementation slices and repository structure before coding. Use when turning a roadmap into a capability-by-capability implementation table, mapping frontend/server/data boundaries, or organizing a web workspace for incremental delivery.
 ---
 
@@ -24,11 +24,11 @@ List only the smallest relevant files, entrypoints, schemas, routes, existing fe
 
 ### Implementation Slices
 
-Use one row per visible capability and preserve this column order:
+Use one row per visible capability and preserve this column order. Put `Done` immediately after `#`; use `[x]` for a capability the user or source roadmap confirms is complete, and `[ ]` for a pending or unconfirmed capability. Do not mark a slice complete merely because it is planned.
 
-| # | Slice / Visible Capability | Understand | Simplify | Reuse | Build | Integrate | Verify | Operate | Evolve |
-|---:|---|---|---|---|---|---|---|---|---|
-| 1 | Example capability | Relevant runtime or domain concept | Smallest safe scope | Existing boundary or primitive | Concrete work | First end-to-end connection | Observable checks | Risk-based telemetry or limits | Explicit next step |
+| # | Done | Slice / Visible Capability | Understand | Simplify | Reuse | Build | Integrate | Verify | Operate | Evolve |
+|---:|:---:|---|---|---|---|---|---|---|---|---|---|
+| 1 | [ ] | Example capability | Relevant runtime or domain concept | Smallest safe scope | Existing boundary or primitive | Concrete work | First end-to-end connection | Observable checks | Risk-based telemetry or limits | Explicit next step |
 
 Make every cell concrete. `Simplify` is the deliberate exclusion list for the slice. `Reuse` names existing code, contracts, or dependencies. `Integrate` states how the slice crosses boundaries. `Operate` is proportional to risk; use `-` for genuinely local work. `Evolve` records deferred work, not hidden current requirements.
 
@@ -98,7 +98,7 @@ Challenge the design before implementation:
 ## AGENTS.md Reference Entry
 
 ```markdown
-- **Skill Reference:** `skills/full-stack-web-implementation-slices-table-and-repo-structure-architect.md`
+- **Skill Reference:** `skills/full-stack-web-implementation-slices-table-and-repo-structure.md`
   - **When to invoke:** Use this when a web roadmap needs an implementation-slices table and repository structure before coding.
   - **Prompt Hook:** "Act as a Lead Full-Stack Web Architect. Generate the Understand/Simplify/Reuse/Build/Integrate/Verify/Operate/Evolve slices table, map stable boundaries, and show the repository structure."
 ```

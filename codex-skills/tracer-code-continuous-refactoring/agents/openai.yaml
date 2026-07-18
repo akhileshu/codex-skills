@@ -1,4 +1,4 @@
 interface:
-  display_name: "Tracer Code & Continuous Refactoring"
+  display_name: "tracer-code-continuous-refactoring"
   short_description: "Refactor slice boundaries without regressions"
   default_prompt: "Enforce the Tracer Code and Continuous Refactoring skill. Identify stable contracts and disposable internals, prove the new boundary with tracer code, refactor incrementally, and preserve invariant-based tests."

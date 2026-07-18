@@ -1,4 +1,4 @@
 interface:
-  display_name: "Type-Safe Boundary Validation & Mutation"
+  display_name: "type-safe-boundary-validation-mutation"
   short_description: "Validate boundaries and mutation flow safely"
   default_prompt: "Enforce the Type-Safe Boundary Validation & Mutation skill. Parse at the edge, keep schemas authoritative, and map forms and mutations through a single type-safe boundary."
