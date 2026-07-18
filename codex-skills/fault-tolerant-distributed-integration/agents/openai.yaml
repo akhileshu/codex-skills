@@ -1,0 +1,4 @@
+interface:
+  display_name: "Fault-Tolerant Distributed Integration"
+  short_description: "Make network integrations bounded and observable"
+  default_prompt: "Enforce the Fault-Tolerant Distributed Integration skill. Add deadlines, telemetry, and bounded failure handling to cross-service work and file transfer flows."

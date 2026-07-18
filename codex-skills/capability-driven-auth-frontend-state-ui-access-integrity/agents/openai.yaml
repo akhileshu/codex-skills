@@ -1,0 +1,4 @@
+interface:
+  display_name: "Capability-Driven Auth & Frontend State"
+  short_description: "Model auth and client state without leakage"
+  default_prompt: "Enforce the Capability-Driven Auth & Frontend State skill. Keep authorization in the backend, model explicit client states, and preserve user intent across auth boundaries."

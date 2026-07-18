@@ -1,0 +1,4 @@
+interface:
+  display_name: "Behavioral Verification & E2E Assurance"
+  short_description: "Test user-visible behavior across boundaries"
+  default_prompt: "Enforce the Behavioral Verification & E2E Assurance skill. Test user-visible outcomes, prefer accessible selectors, and cover boundary failures with unit and Playwright checks."

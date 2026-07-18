@@ -1,0 +1,4 @@
+interface:
+  display_name: "Go Systems Slice Design Generator"
+  short_description: "Plan Go slices with bounded control flow"
+  default_prompt: "Enforce the Go Systems Slice Design Generator skill. Map Go work into small sequential slices, keep boundaries explicit, and verify failure paths before adding concurrency."

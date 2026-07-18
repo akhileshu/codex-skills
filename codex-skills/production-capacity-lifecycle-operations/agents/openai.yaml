@@ -1,0 +1,4 @@
+interface:
+  display_name: "Production Capacity & Lifecycle Operations"
+  short_description: "Keep systems bounded, observable, and safe"
+  default_prompt: "Enforce the Production Capacity & Lifecycle Operations skill. Bound traffic and concurrency, add telemetry, and design safe rollout and rollback paths."

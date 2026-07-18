@@ -1,0 +1,4 @@
+interface:
+  display_name: "Go Systems Slice Topology Architect"
+  short_description: "Design Go systems slices and package topology"
+  default_prompt: "Enforce the Go Systems Slice Topology Architect skill. Decompose systems work into vertical slices, choose a clean Go package layout, and keep concurrency bounded."

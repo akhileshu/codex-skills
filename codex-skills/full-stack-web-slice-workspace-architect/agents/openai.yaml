@@ -1,0 +1,4 @@
+interface:
+  display_name: "Full-Stack Web Slice Workspace Architect"
+  short_description: "Lay out full-stack workspaces slice by slice"
+  default_prompt: "Enforce the Full-Stack Web Slice Workspace Architect skill. Organize app structure, feature co-location, and slice milestones before implementation starts."
