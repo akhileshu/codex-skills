@@ -38,7 +38,7 @@ Keep systems bounded, observable, and safe to change. Add operational controls b
 ## AGENTS.md Reference Entry
 
 ```markdown
-- **Skill Reference:** `skills/production-capacity-lifecycle-operations.md`
+- **Skill Reference:** `$production-capacity-lifecycle-operations`
   - **When to invoke:** Use this when adding rate limits, concurrency controls, telemetry, or rollout safety to a service.
   - **Prompt Hook:** "Act as an SRE and performance engineer. Bound capacity, add telemetry, and keep rollouts reversible."
 ```

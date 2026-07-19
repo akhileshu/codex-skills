@@ -1,27 +1,54 @@
 ---
 name: full-stack-web-slice-design-generator
-description: Full-stack planning guidance for turning milestone rows into implementation-ready vertical slices from database to UI, with concrete interfaces, state flows, tests, and repository boundaries. Use when designing a web feature blueprint, studying a product row, or mapping client and server responsibilities before implementation.
+description: Full-stack planning guidance for turning milestone rows into implementation-ready vertical slices from database to UI, with concrete TypeScript contracts, state flows, tests, and repository boundaries. Use when designing a web feature blueprint, studying a product row, or mapping client and server responsibilities before implementation.
 ---
 
 # Full-Stack Web Slice Design Generator
 
 ## Overview
 
-Turn product milestones into concrete full-stack slices. Start with the smallest visible capability and map the data flow end to end.
-
-## Slice Blueprint
-
-1. Start with a "What to Study" shortlist of the smallest relevant references.
-2. Map the pipeline from database truth to UI feedback.
-3. Define the slice boundary, then keep server, client, and validation responsibilities separate.
-4. Document each slice using the required structure below.
-5. Include detailed operational notes only when the slice is risky enough to need them.
+Turn product milestones into concrete full-stack slices. Start with the smallest visible capability and map the data flow end to end while keeping route composition, transport, validation, domain rules, persistence, client state, and rendering distinct.
 
 Use this delivery lens while filling the document:
 
 `Understand -> Simplify -> Reuse -> Build -> Integrate -> Verify -> Operate -> Evolve`
 
 Keep the first slice a tracer implementation of the critical path. Later slices may replace internal state, transport, or persistence choices when evidence justifies it; protect only the smallest stable interfaces and observable behavior.
+
+## Workflow
+
+1. Identify the actor, visible capability, and smallest successful outcome.
+2. Inspect the existing route, feature, schema, data access, query/mutation, UI primitives, and test setup.
+3. Research a short set of verified external resources when the problem is non-trivial, current, or unfamiliar.
+4. Map database truth through server authorization/validation to client state and UI feedback.
+5. Define TypeScript contracts and write normal/error-state pseudocode before implementation.
+6. Choose the smallest integration path and preserve existing conventions.
+7. Specify behavior-focused tests and observable acceptance criteria.
+8. Record deferred work and the behavior that future refactors must preserve.
+
+## What To Study
+
+For every non-trivial slice, include a small, prioritized study list. Scout existing engineering knowledge rather than generating generic advice:
+
+- official framework, browser, database, API, and accessibility documentation;
+- production engineering blogs and real-world case studies;
+- whitepapers, PDFs, conference slides, architecture diagrams, and sequence diagrams;
+- credible open-source implementations and their tests.
+
+For each resource, provide a direct verified link, title/author or project, what to read, and the decision it informs. Browse for current, niche, or externally referenced material. Never invent citations or imply that a source was consulted when it was not. Distinguish authoritative sources from educational references.
+
+Keep the list layered and short:
+
+```markdown
+## What To Study
+
+1. Framework/server documentation — request and mutation lifecycle.
+   Direct link; read the section that determines error and authorization behavior.
+2. A production engineering case study — persistence, caching, or consistency trade-off.
+   Direct link; use it to choose the simplest safe data-flow boundary.
+3. An accessibility or browser reference — interaction and feedback requirements.
+   Direct link; use it to define public UI behavior and selectors.
+```
 
 ## Roadmap Table
 
@@ -35,11 +62,11 @@ Keep cells concrete. `Simplify` is an exclusion list. `Integrate` must name the 
 
 ## Required Slice Document
 
-For each slice, use these headings in this order. Keep the content proportional to the slice; do not fill sections with speculative detail.
+For each slice, use these headings in this order. Keep content proportional to the slice and do not fill sections with speculative detail.
 
 ### Goal
 
-State the smallest user-visible capability and the outcome it must provide.
+State the smallest user-visible capability, actor, trigger, and successful outcome.
 
 ### Non-goals
 
@@ -47,51 +74,81 @@ Name adjacent behavior deliberately excluded from this slice to protect its boun
 
 ### Design
 
-Describe the slice boundary and the simplest architecture that supports it. Include the relevant database truth, server, validation, client state, and UI responsibilities.
+Describe the simplest architecture that supports the capability. Include database truth, server, authorization, validation, domain/data operation, client state, and UI responsibilities.
 
-Before accepting the design, check for high-volatility state leakage, raw external types entering domain logic, accidental coupling between transport and business rules, and missing cleanup for subscriptions or other long-lived resources.
+Before accepting the design, check for high-volatility state leakage, raw external types entering domain logic, accidental coupling between transport and business rules, client-side policy enforcement, and missing cleanup for subscriptions or other long-lived resources.
 
 ### Interfaces
 
-List the contracts between layers: schema or data model, endpoint/action, request and response shapes, errors, cache/query keys, and component inputs or events. Reuse existing interfaces where possible.
+List the contracts between layers: data model, endpoint/action, request and response shapes, runtime validation, classified errors, capability decisions, query/cache keys, and component inputs/events. Reuse existing interfaces where possible.
+
+Use TypeScript or TSX for all web code examples:
+
+```ts
+type CreateItemInput = { name: string };
+
+type ItemResult = { id: string; name: string };
+
+type MutationError =
+  | { kind: "validation"; fields: Record<string, string> }
+  | { kind: "forbidden" }
+  | { kind: "conflict" }
+  | { kind: "unavailable" };
+
+// The server remains authoritative for authorization and validation.
+declare function createItem(input: CreateItemInput):
+  Promise<{ ok: true; value: ItemResult } | { ok: false; error: MutationError }>;
+```
+
+Name ownership and authority explicitly: the server decides authorization, the runtime schema validates untrusted input, and the client renders server results rather than becoming a policy engine.
 
 ### Execution flow
 
 Trace the normal path end to end:
 
-`database truth -> server endpoint or action -> validation boundary -> client cache -> component state -> UI layout`
+`database truth -> server endpoint or action -> authorization/validation -> domain/data operation -> client cache -> component state -> UI layout`
 
-Mention mutations, invalidation, loading states, and optimistic behavior only when applicable.
+Mention mutations, invalidation, loading states, optimistic behavior, subscriptions, and cleanup only when applicable.
+
+Show state transitions when they affect user behavior:
+
+```text
+idle
+  -> submitting (disable duplicate submission)
+  -> success (invalidate query and render result)
+  -> validation-error (preserve input and show fields)
+  -> forbidden (show denied state; do not claim success)
+  -> server/network-error (show retryable feedback)
+```
 
 ### Failure cases
 
-Cover validation, authorization, missing or stale data, network/server failure, concurrency, and user-recovery behavior when relevant. Do not invent failure modes that cannot affect the slice.
+Cover validation, authorization, missing or stale data, network/server failure, concurrency/conflicts, and user recovery only when they can affect the slice. State the user-visible behavior and whether input, cache, or server state is preserved.
 
 ### Tests
 
-Specify behavior-focused checks for the server and UI boundaries. Include unit, integration, or E2E coverage only where each level adds confidence; identify the key happy path and meaningful failures.
+Specify behavior-focused checks for server and UI boundaries. Include each test level only when it adds confidence:
+
+| Scenario | Level | Expected observable behavior |
+|---|---|---|
+| Successful user flow | UI/integration | User sees the resulting state and refreshed data |
+| Invalid input | Schema/server/UI | Mutation is rejected and actionable feedback appears |
+| Forbidden action | Integration/UI | Backend denies it and UI does not claim success |
+| Network or stale-data failure | Integration/E2E | Recovery or retry behavior is clear |
+
+Keep E2E assertions on public outcomes and accessible selectors so internal cache or state implementations can change safely.
 
 ### Definition of done
 
-Give observable acceptance criteria covering the user outcome, interfaces, states, failure behavior, and required tests.
+Give observable acceptance criteria covering the user outcome, interfaces, loading/empty/success/error/forbidden states, failure behavior, authorization, and required tests.
 
 ### Future improvements
 
-Capture explicitly deferred work, risks, or follow-up slices. Keep this separate from the current implementation contract.
-
-When a later slice changes an earlier internal design, record the refactoring boundary and the behavior that must remain unchanged.
+Capture explicitly deferred work, risks, or follow-up slices. Keep this separate from the current implementation contract. When a later slice changes an earlier internal design, record the refactoring boundary and behavior that must remain unchanged.
 
 ## Implementation-Ready Detail
 
-For slices that need more than the required headings, add these subsections inside the relevant headings rather than creating a second competing template:
-
-### What This Slice Builds
-
-State the smallest visible user capability, the actor, and the successful outcome.
-
-### What To Study
-
-List the smallest relevant routes, existing feature, database model, schema, query/action, UI primitive, and test setup. Tie each reference to a design decision.
+Add these subsections inside the relevant required headings when the slice needs more detail; do not create a competing template.
 
 ### Core Mental Model
 
@@ -101,35 +158,15 @@ Show the user and data flow:
 user action
     -> route or component event
     -> server action/API
-    -> authorization and validation
+    -> authorization and runtime validation
     -> domain/data operation
     -> cache update or invalidation
     -> loading/success/error/forbidden UI feedback
 ```
 
-### Interfaces And State
-
-Show representative contracts without assuming a framework:
-
-```ts
-type CreateItemInput = {
-  name: string;
-};
-
-type ItemResult = {
-  id: string;
-  name: string;
-};
-
-// Server remains authoritative for authorization and validation.
-declare function createItem(input: CreateItemInput): Promise<ItemResult>;
-```
-
-Name request/response or action contracts, errors, capability decisions, query/cache keys, component props/events, and explicit loading, empty, success, error, and forbidden states.
-
 ### Repository And Feature Ownership
 
-Show only the relevant project structure:
+Show only relevant project structure and adapt it to the repository:
 
 ```text
 web-app/
@@ -142,60 +179,56 @@ web-app/
 └── docs/slices/01-items.md
 ```
 
-Adapt this to the existing repository. Do not invent a monorepo or server package for a small application.
+Do not invent a monorepo, server package, or abstraction layer for a small application.
 
 ### Pseudocode And Integration
 
-Describe the normal path and state transitions before implementation:
+Describe normal, rejected, and recovery paths before implementation:
 
 ```text
 submit form
  -> disable duplicate submission
  -> parse input at server boundary
- -> check capability
+ -> check server-side capability
  -> perform mutation
- -> invalidate item query
+ -> invalidate affected query
  -> show created item
-on validation/error/forbidden
- -> preserve input
- -> show actionable feedback
+
+on validation/forbidden/error
+ -> preserve input when safe
+ -> map classified error to actionable feedback
+ -> re-enable submission or offer retry
 ```
+
+Add helper flows for cache invalidation, stale-data handling, subscriptions, or optimistic rollback only when those behaviors are part of the slice.
 
 ### Tests And Acceptance
 
-Use a risk-focused matrix:
-
-| Scenario | Level | Expected observable behavior |
-|---|---|---|
-| Successful user flow | UI/integration | User sees the resulting state |
-| Invalid input | Schema/server/UI | Mutation is rejected and feedback is actionable |
-| Forbidden action | Integration/UI | Backend denies it and UI does not claim success |
-| Network or stale-data failure | Integration/E2E | Recovery or retry behavior is clear |
-
-Keep E2E assertions on public outcomes and accessible selectors so internal cache or state implementations can change safely.
+Use a risk-focused matrix and connect every acceptance criterion to a public observable. Prefer unit tests for pure mapping/validation, integration tests for server boundaries, and E2E tests for the critical user journey.
 
 ## Core Flow
 
-- Database truth -> server endpoint or action -> validation boundary -> client cache -> component state -> UI layout.
+- Database truth -> server endpoint/action -> authorization and validation -> client cache -> component state -> UI layout.
 - Prefer one vertical slice per visible capability.
-- Reuse existing UI tokens, schemas, hooks, and actions before adding new primitives.
-- Keep the initial implementation simple if the slice is low risk.
+- Reuse existing UI tokens, schemas, hooks, actions, and test helpers before adding primitives.
+- Keep the initial implementation simple when the slice is low risk.
 - Keep route composition, transport, validation, domain rules, persistence, cache, and rendering responsibilities distinct.
-- Make the server the source of truth for authorization and do not turn the client into a policy engine.
+- Make the server the source of truth for authorization.
+- Make loading, empty, success, error, and forbidden states explicit when they are user-visible.
 
 ## Flexible Guardrail
 
-- For static pages or low-risk CRUD, skip the heavy matrix and keep the slice lean.
-- Do not force elaborate state machines, telemetry plans, or E2E maps when they do not change the decision.
-- Use the full matrix only when the boundary, state, or rollout risk justifies it.
-- For a small slice, keep the added subsections brief rather than omitting interface, failure, or acceptance decisions.
+- For static pages or low-risk CRUD, keep the study list, matrix, and pseudocode lean.
+- Do not force elaborate state machines, optimistic updates, telemetry plans, or E2E maps when they do not change the decision.
+- Use the full detail only when the boundary, state, or rollout risk justifies it.
+- For a small slice, shorten each required section rather than omitting interface, failure, or acceptance decisions.
 
-The nine required headings are not optional, even for lean slices. A lean slice may use brief statements under each heading. If the input contains multiple capabilities, create one complete document per slice rather than combining unrelated flows.
+The nine required headings are not optional. If the input contains multiple capabilities, create one complete document per slice rather than combining unrelated flows.
 
 ## AGENTS.md Reference Entry
 
 ```markdown
-- **Skill Reference:** `skills/full-stack-web-slice-design-generator.md`
+- **Skill Reference:** `$full-stack-web-slice-design-generator`
   - **When to invoke:** Use this when a milestone row needs to become a concrete full-stack implementation plan before coding.
-  - **Prompt Hook:** "Act as a Lead Full-Stack Architect. Map the slice end to end, keep client/server boundaries clean, and choose the smallest safe implementation."
+  - **Prompt Hook:** "Act as a Lead Full-Stack Architect. Research verified sources, map the slice end to end, use TypeScript/TSX contracts and examples, keep client/server boundaries clean, and choose the smallest safe implementation."
 ```

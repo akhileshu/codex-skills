@@ -79,6 +79,10 @@ For a multi-slice plan, name documents predictably, for example `docs/slices/01-
 
 Keep table rows concise and put detailed contracts or failure analysis in the corresponding slice document.
 
+## Examples
+
+- [Real-time collaborative whiteboard](examples/milestones-table-and-folder-structure-collaborative-whiteboard.md): a full-stack progression from local canvas interaction through persistence, realtime collaboration, authorization, and operations. Use it when the roadmap crosses frontend, API, realtime, shared-contract, and database boundaries.
+
 ## Validation Before Coding
 
 Challenge the design before implementation:
@@ -98,7 +102,7 @@ Challenge the design before implementation:
 ## AGENTS.md Reference Entry
 
 ```markdown
-- **Skill Reference:** `skills/full-stack-web-implementation-slices-table-and-repo-structure.md`
+- **Skill Reference:** `$full-stack-web-implementation-slices-table-and-repo-structure`
   - **When to invoke:** Use this when a web roadmap needs an implementation-slices table and repository structure before coding.
   - **Prompt Hook:** "Act as a Lead Full-Stack Web Architect. Generate the Understand/Simplify/Reuse/Build/Integrate/Verify/Operate/Evolve slices table, map stable boundaries, and show the repository structure."
 ```

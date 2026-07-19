@@ -58,6 +58,22 @@ go-system/
 
 Adapt the tree to the repository. Omit `pkg/` for application-internal code and omit `migrations/`, `worker/`, or deeper packages when the system does not need them. Do not create packages solely to satisfy this example.
 
+### Important Boundary
+
+Show the narrowest end-to-end path and its ownership boundaries, for example:
+
+```text
+Input bytes
+→ command or transport boundary
+→ parser/decoder
+→ domain command
+→ storage interface
+→ persistence implementation
+→ result or error
+```
+
+Also state which data is durable, which state is request-scoped, and which lifecycle owns files, goroutines, timers, channels, and network clients. Keep `cmd/...` responsible for wiring; keep parsing, domain rules, and storage behind internal package boundaries.
+
 ## Design Method
 
 Use this lens for each row:
@@ -78,6 +94,10 @@ For a multi-slice plan, name documents predictably, for example `docs/slices/01-
 `Goal`, `Non-goals`, `Design`, `Interfaces`, `Execution flow`, `Failure cases`, `Tests`, `Definition of done`, and `Future improvements`.
 
 Keep the table concise and put detailed control flow, invariants, and failure analysis in the corresponding slice document.
+
+## Examples
+
+- [Toy SQL database](examples/milestones-table-and-folder-structure-toydb.md): a sequential progression from a REPL through parsing, execution, paging, indexing, transactions, recovery, and optimization. Use it when a Go roadmap evolves a systems component behind explicit package boundaries.
 
 ## Verification And Operations
 
@@ -100,7 +120,7 @@ For operational slices, specify bounded input size, workers, queues, retries, ti
 ## AGENTS.md Reference Entry
 
 ```markdown
-- **Skill Reference:** `skills/go-implementation-slices-table-and-repo-structure.md`
+- **Skill Reference:** `$go-implementation-slices-table-and-repo-structure`
   - **When to invoke:** Use this when a Go roadmap needs an implementation-slices table and repository/package structure before coding.
   - **Prompt Hook:** "Act as a Go Systems Architect. Generate the Understand/Simplify/Reuse/Build/Integrate/Verify/Operate/Evolve slices table, show cmd/internal package boundaries, and keep the first path sequential and testable."
 ```

@@ -1,26 +1,64 @@
 ---
 name: go-systems-slice-design-generator
-description: Go systems planning guidance for turning milestone rows into implementation-ready slices with clear control flow, interfaces, pseudocode, tests, and repository boundaries. Use when designing Go features, parsers, pipelines, storage code, or concurrency before implementation.
+description: Go systems planning guidance for turning milestone rows into implementation-ready slices with clear control flow, interfaces, pseudocode, tests, and repository boundaries. Use when designing Go features, parsers, pipelines, storage code, concurrency, or network-bound systems before implementation.
 ---
 
 # Go Systems Slice Design Generator
 
 ## Overview
 
-Turn a Go milestone into a small, testable slice. Define the data flow, keep the first version sequential, and make the boundary rules explicit.
+Turn a Go milestone into a small, testable, implementation-ready slice. Preserve the smallest stable boundary, make data flow and failure behavior explicit, and keep the first tracer path sequential unless concurrency is the capability being designed.
 
-## Slice Blueprint
+Use this delivery lens for each slice:
 
-1. Start with a shortlist of the most relevant references or APIs.
-2. Describe the input, transform, and output model in Go terms.
-3. Normalize at the boundary before deeper logic.
-4. Build a narrow sequential tracer path that proves the important boundary.
-5. Add concurrency only after the sequential path is correct.
-6. Preserve tested external behavior when later slices replace internal representations.
+`Understand -> Simplify -> Reuse -> Build -> Integrate -> Verify -> Operate -> Evolve`
 
-Use this lens for each slice: `Understand -> Simplify -> Reuse -> Build -> Integrate -> Verify -> Operate -> Evolve`.
+Before accepting a design, make invariants, ownership, cancellation, resource cleanup, and error semantics visible. Keep transport, storage, and domain representations separate when that boundary matters.
 
-Before implementation, check that invariants are explicit, cancellation and resource ownership are visible, and the design does not couple transport or storage types to core logic.
+## Workflow
+
+1. Identify the visible capability and its smallest useful outcome.
+2. Inspect the repository before inventing packages, interfaces, or adapters.
+3. Research a short set of relevant external resources when the topic is non-trivial, current, or unfamiliar.
+4. Define the input, transformation, state, and output boundaries.
+5. Draw the end-to-end flow and write pseudocode before proposing full implementation.
+6. Add the narrowest integration path that proves the boundary.
+7. Specify invariant-based tests and operational behavior proportional to risk.
+8. Record the next refactoring boundary without designing future work in detail.
+
+## What To Study
+
+For every non-trivial slice, include a short, prioritized study list. Prefer existing engineering knowledge over invented explanations:
+
+- official Go/package/protocol documentation for exact contracts;
+- production engineering blogs and real-world case studies for trade-offs;
+- whitepapers, PDFs, conference slides, or architecture diagrams for system models;
+- credible open-source implementations for lifecycle and integration details.
+
+For each resource, provide a direct link, title/author or project name, what to read, and the design decision it informs. Use browsing for current, niche, or externally referenced material. Do not fabricate links or citations; if a useful source cannot be verified, say so and provide a local reasoning path instead.
+
+Keep the list small and layered:
+
+```text
+quick start: one conceptual explanation and one API reference
+deep dive: one production case study, paper, or architecture diagram
+implementation: one credible source for the lifecycle or protocol
+```
+
+Example:
+
+```markdown
+## What To Study
+
+1. Go `context` package docs — cancellation and deadline ownership.
+   https://pkg.go.dev/context
+   Read `Done`, `Err`, and derived contexts; use it to define shutdown behavior.
+2. The Go blog, “Pipelines” — cancellation in staged concurrent flows.
+   https://go.dev/blog/pipelines
+   Use it to decide how stages stop without leaking goroutines.
+3. A relevant production case study or protocol paper — batching/retry trade-offs.
+   Link directly to the verified source and state which queue or retry invariant it informs.
+```
 
 ## Roadmap Table
 
@@ -30,27 +68,27 @@ When the input contains multiple milestones, begin with one row per visible capa
 |---:|---|---|---|---|---|---|---|---|---|
 | 1 | Example capability | Runtime or domain concept to learn | Deliberate version-one boundary | Existing package or standard library | Concrete types and functions | First caller or composition-root path | Invariants and failure tests | Limits, cleanup, or telemetry | Explicit next slice |
 
-Keep cells concrete and short. `Simplify` must state exclusions. `Integrate` must identify the package or process boundary. Use `-` for operations that are genuinely irrelevant rather than inventing ceremony.
+Keep cells concrete and short. `Simplify` must state exclusions. `Integrate` must identify the package or process boundary. Use `-` only when a concern is genuinely irrelevant.
 
 ## Implementation-Ready Slice Document
 
-For each detailed slice, use these sections in order. Keep the depth proportional to risk, but include enough detail that implementation does not require architectural guesswork:
+For each slice, use these sections in order. Keep the depth proportional to risk, but do not leave architectural decisions implicit.
 
 ### What This Slice Builds
 
-State the visible capability, the smallest useful behavior, and the output or state it produces.
+State the visible capability, smallest useful behavior, actor/caller, and output or state it produces.
 
 ### What To Study
 
-List only the relevant packages, formats, protocols, existing code paths, and short references. Tie each item to a decision it informs.
+Use the research protocol above. Tie every source to a concrete design decision; do not provide a generic technology bibliography.
 
 ### Scope And Non-goals
 
-Define the supported version-one behavior and explicitly defer adjacent features.
+Define supported version-one behavior and explicitly defer adjacent features, alternate implementations, and premature concurrency.
 
 ### Core Mental Model
 
-Show the main data flow and state transitions in a compact text diagram:
+Show the main data flow and important state transitions:
 
 ```text
 external input
@@ -62,7 +100,7 @@ external input
 
 ### Data Model And Interfaces
 
-Show the smallest useful Go contracts. Keep transport, storage, and domain representations separate when the boundary matters:
+Show the smallest useful Go contracts. Name invariants, ownership, error semantics, and lifecycle rules beside them:
 
 ```go
 type Reader interface {
@@ -75,7 +113,7 @@ type Store interface {
 }
 ```
 
-Name invariants, ownership, error semantics, and lifecycle rules beside the interfaces.
+Keep adapters out of domain contracts when they would leak transport or persistence details.
 
 ### Integration Flow
 
@@ -87,12 +125,38 @@ cmd/service/main.go
     -> call internal capability
     -> normalize boundary input
     -> apply domain rules
-    -> return result or structured error
+    -> return result or classified error
 ```
 
 ### Core Pseudocode
 
-Describe the control flow before writing full code. Make normal completion, invalid input, cancellation, and cleanup explicit.
+Describe normal completion, invalid input, cancellation, retry limits, and cleanup before writing full code:
+
+```text
+run(ctx, input):
+    normalized = normalize(input)
+    if normalized is invalid: return classified validation error
+
+    result = domain operation(normalized)
+    if ctx is cancelled: release owned resources; return ctx error
+    if operation fails: preserve invariant; return wrapped cause
+
+    commit or publish result
+    return result
+```
+
+Add helper flows for non-trivial boundaries:
+
+```text
+readNext():
+    if exhausted: return no item
+    decode one item
+    if malformed: record position; return parse error
+    advance cursor exactly once
+    return item
+```
+
+Every helper must have a clear exit condition and must not hide recoverable failures behind panics or unbounded retries.
 
 ### Suggested Go Structure
 
@@ -109,49 +173,46 @@ toy-system/
 └── go.mod
 ```
 
-Do not create `pkg/`, worker packages, or extra layers unless public reuse or a real boundary justifies them.
+Adapt this to the repository. Do not create `pkg/`, worker packages, or extra layers unless public reuse or a real boundary justifies them.
 
 ### Failure Cases And Invariants
 
-Cover malformed input, missing data, duplicate operations, cancellation, partial writes, retries, and concurrency only when they can affect this slice. State what must remain true after each failure.
+Cover only failures that can affect the slice: malformed input, missing data, duplicate operations, cancellation, partial writes, retries, deadlines, and concurrency races where applicable. State what remains true after each failure.
 
 ### Tests
 
-Use a compact test matrix:
+Use a compact behavior-focused matrix:
 
 | Scenario | Level | Expected observable behavior |
 |---|---|---|
 | Valid input | Unit/integration | Produces the expected result |
 | Invalid input | Unit | Returns a classified error and no partial state |
+| Cancellation or deadline | Integration | Stops work and releases owned resources |
 | Boundary failure | Integration | Caller receives a recoverable failure |
 
-Prefer tests for pure transformations and public behavior. Add race, process, or end-to-end tests only when the slice crosses those boundaries.
+Prefer pure transformation tests and public behavior. Add race, process, or end-to-end tests only when the slice crosses those boundaries.
 
 ### Operational Notes And Future Evolution
 
-Document limits, metrics, shutdown, cleanup, and rollback only when operationally relevant. Record how a later slice may replace internal data structures while preserving the tested external contract.
+Document limits, metrics, shutdown, cleanup, rollback, and retry policy only when operationally relevant. State how a later slice may replace internal data structures while preserving the tested external contract.
 
-## Core Flow
+## Core Guardrails
 
 - Treat the problem as `input -> transform -> output`.
-- Keep invariants and error paths explicit.
-- Use bounded loops and clear exit conditions.
-- Include observability only where the slice is operationally important.
+- Normalize at boundaries before deeper logic.
+- Keep bounded loops and explicit exit conditions.
+- Keep the smallest correct sequential path as the default.
+- Add concurrency only when required by the capability, and define ownership, backpressure, cancellation, and shutdown.
+- Keep `cmd/.../main.go` as wiring.
 - Prefer invariant-based integration tests over tests tied to internal data structures.
-- Keep `cmd/.../main.go` as wiring and keep core logic independent of transport and persistence types.
-- Make ordinary runtime failures explicit; do not hide recoverable failures behind panics or unbounded retries.
+- Use `-` instead of speculative ceremony for irrelevant concerns.
 
-## Flexible Guardrail
-
-- For a tiny helper or CLI wrapper, keep the plan short.
-- Do not force grammar diagrams or deep telemetry if the problem is simple.
-- Keep the smallest correct sequential slice as the default.
-- For a small slice, shorten each required section rather than omitting its boundary, failure, or test decisions.
+For a tiny helper or CLI wrapper, shorten each section rather than inventing deep telemetry or architecture.
 
 ## AGENTS.md Reference Entry
 
 ```markdown
-- **Skill Reference:** `skills/go-systems-slice-design-generator.md`
-  - **When to invoke:** Use this when a Go feature needs a concrete implementation slice, especially for parsers, storage, pipelines, or other boundary-heavy logic.
-  - **Prompt Hook:** "Act as a Go Systems Architect. Define the sequential slice, normalize inputs at the boundary, and keep concurrency out until the baseline path works."
+- **Skill Reference:** `$go-systems-slice-design-generator`
+  - **When to invoke:** Use this when a Go feature needs a concrete implementation slice, especially for parsers, storage, pipelines, concurrency, or boundary-heavy logic.
+  - **Prompt Hook:** "Act as a Go Systems Architect. Research the relevant sources, define the sequential slice, normalize inputs at the boundary, show core and helper pseudocode, and keep concurrency out until the baseline path works."
 ```

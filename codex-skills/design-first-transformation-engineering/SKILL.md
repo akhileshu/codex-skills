@@ -33,7 +33,7 @@ Treat software as a transformation pipeline. Normalize at the edge, keep domain 
 ## AGENTS.md Reference Entry
 
 ```markdown
-- **Skill Reference:** `skills/design-first-transformation-engineering.md`
+- **Skill Reference:** `$design-first-transformation-engineering`
   - **When to invoke:** Use this when mapping a new feature, shaping domain boundaries, or planning how data should flow through a change.
   - **Prompt Hook:** "Act as a Systems Architect. Normalize at the boundary, keep domain logic free of infrastructure details, and make state transitions explicit."
 ```

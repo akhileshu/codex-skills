@@ -154,7 +154,7 @@ The refactor is complete when the new boundary is proven, public behavior remain
 ## AGENTS.md Reference Entry
 
 ```markdown
-- **Skill Reference:** `skills/tracer-code-continuous-refactoring.md`
+- **Skill Reference:** `$tracer-code-continuous-refactoring`
   - **When to invoke:** Use this when a later slice must replace an earlier internal representation or when architecture needs behavior-preserving evolution.
   - **Prompt Hook:** "Identify stable contracts and disposable internals, build a narrow tracer, refactor incrementally, and preserve invariant-based tests."
 ```

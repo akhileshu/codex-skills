@@ -1,4 +1,4 @@
 interface:
   display_name: "go-systems-slice-design-generator"
   short_description: "Design Go slices with interfaces and tests"
-  default_prompt: "Enforce the Go Systems Slice Design Generator skill. Generate an implementation-slices table and detailed Go slice documents with study notes, scope, interfaces, pseudocode, repo structure, integration flow, failure cases, tests, and evolution guidance."
+  default_prompt: "Enforce the Go Systems Slice Design Generator skill. Research verified engineering sources, generate an implementation-slices table and detailed Go slice documents with study notes, diagrams, interfaces, core and helper pseudocode, repo structure, integration flow, failure cases, tests, and evolution guidance."

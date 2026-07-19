@@ -32,7 +32,7 @@ Keep remote state remote and local state lean. Model state transitions explicitl
 ## AGENTS.md Reference Entry
 
 ```markdown
-- **Skill Reference:** `skills/resilient-client-state-query-architecture.md`
+- **Skill Reference:** `$resilient-client-state-query-architecture`
   - **When to invoke:** Use this when designing client-side state, query lifecycles, workspace filters, or persistent UI state.
   - **Prompt Hook:** "Act as a State Architecture Specialist. Keep server state in TanStack Query, keep local state lean, and mirror visible filters in the URL when needed."
 ```

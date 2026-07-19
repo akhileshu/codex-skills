@@ -44,7 +44,7 @@ Before coding, challenge the proposed design against the actual failure modes:
 ## AGENTS.md Reference Entry
 
 ```markdown
-- **Skill Reference:** `skills/agentic-execution-context-discovery-ai-assisted-workflows.md`
+- **Skill Reference:** `$agentic-execution-context-discovery-ai-assisted-workflows`
   - **When to invoke:** Use this when starting work in an unfamiliar repo, planning a change, or needing an explicit discover-first workflow before coding.
   - **Prompt Hook:** "Act as a Principal Engineer Coordinator. Discover the repo structure first, state constraints clearly, split the work into phases, and validate each step before coding."
 ```

@@ -45,7 +45,7 @@ Test what the user can observe. Prefer accessible selectors, stable outcomes, an
 ## AGENTS.md Reference Entry
 
 ```markdown
-- **Skill Reference:** `skills/behavioral-verification-e2e-assurance.md`
+- **Skill Reference:** `$behavioral-verification-e2e-assurance`
   - **When to invoke:** Use this when writing tests, validating user workflows, or deciding whether a behavior should be covered by unit, integration, or Playwright tests.
   - **Prompt Hook:** "Act as a Quality Assurance Engineer. Test visible behavior, prefer accessible selectors, and cover only the workflow boundaries that matter."
 ```

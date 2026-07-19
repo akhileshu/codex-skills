@@ -38,7 +38,7 @@ Keep data integrity at the edge. Validate once, preserve types through the flow,
 ## AGENTS.md Reference Entry
 
 ```markdown
-- **Skill Reference:** `skills/type-safe-boundary-validation-mutation.md`
+- **Skill Reference:** `$type-safe-boundary-validation-mutation`
   - **When to invoke:** Use this when designing database schemas, API handlers, or forms that need one authoritative validation boundary.
   - **Prompt Hook:** "Act as a Type-Safe Full-Stack Developer. Validate at the edge, keep policies central, and wire forms to the same schema source."
 ```

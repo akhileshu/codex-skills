@@ -33,7 +33,7 @@ Treat authorization as backend truth and client state as an explicit model. UI s
 ## AGENTS.md Reference Entry
 
 ```markdown
-- **Skill Reference:** `skills/capability-driven-auth-frontend-state-ui-access-integrity.md`
+- **Skill Reference:** `$capability-driven-auth-frontend-state-ui-access-integrity`
   - **When to invoke:** Use this when designing authenticated web interfaces, permission-gated flows, or client state that needs explicit loading, error, and forbidden handling.
   - **Prompt Hook:** "Act as a Lead Frontend & Security Engineer. Keep authorization in the backend, model explicit UI states, and preserve user intent across auth barriers."
 ```

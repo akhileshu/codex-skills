@@ -38,7 +38,7 @@ Start sequential, then add concurrency carefully. Bound everything that can grow
 ## AGENTS.md Reference Entry
 
 ```markdown
-- **Skill Reference:** `skills/resilient-concurrent-distributed-systems-design.md`
+- **Skill Reference:** `$resilient-concurrent-distributed-systems-design`
   - **When to invoke:** Use this when writing concurrent Go code, queue consumers, or multi-process workflows with retries and side effects.
   - **Prompt Hook:** "Act as a Distributed Systems Engineer. Keep concurrency bounded, design for retries and duplication, and choose the right failure mode explicitly."
 ```

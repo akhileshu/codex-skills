@@ -137,7 +137,7 @@ A slice is complete when the intended behavior works, important failure paths ar
 ## AGENTS.md Reference Entry
 
 ```markdown
-- **Skill Reference:** `skills/slice-implementer.md`
+- **Skill Reference:** `$slice-implementer`
   - **When to invoke:** Use this when implementing a bounded slice document such as `docs/slices/05-in-memory-table-storage.md`.
   - **Prompt Hook:** "Implement this slice after reconciling it with the repository and quality rules. Build a tracer path, work in verified checkpoints, and preserve stable behavior."
 ```

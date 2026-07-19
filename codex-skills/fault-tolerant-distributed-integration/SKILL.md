@@ -39,7 +39,7 @@ Treat network boundaries as failure-prone by default. Add deadlines, telemetry, 
 ## AGENTS.md Reference Entry
 
 ```markdown
-- **Skill Reference:** `skills/fault-tolerant-distributed-integration.md`
+- **Skill Reference:** `$fault-tolerant-distributed-integration`
   - **When to invoke:** Use this when writing Go clients, direct-to-storage flows, or any network integration that must survive retries, timeouts, or partial failure.
   - **Prompt Hook:** "Act as a Distributed Infrastructure Developer. Add deadlines, telemetry, and bounded retry handling to the integration boundary."
 ```
